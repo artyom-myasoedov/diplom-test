@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'lcl'
+        url = new URL("file:///Users/ruaaaxs/.m2/repository")
+    }
+}
+
+dependencies {
+    implementation 'ru.vsu.cs:diplom-core:1.0'
+    annotationProcessor 'ru.vsu.cs:diplom-annotation-processor:1.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+sourceSets.main.java.srcDirs = ['build/generated/sources/main','src/main/java']
+
+tasks.withType(JavaCompile).configureEach {
+
+    options.fork = false
+    options.debug = true
+    options.forkOptions.jvmArgs.addAll(['-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000'])
+}
+test {
+    useJUnitPlatform()
+}
